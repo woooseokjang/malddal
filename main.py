@@ -84,8 +84,7 @@ if __name__ == '__main__':
 
     def imagecapture(directory):
         rgb, temp = mymalddal.getWindowsImage(hwnd)
-        bgr = rgb[..., ::-1].copy()
-        if mymalddal.game_capture(bgr, directory):
+        if mymalddal.game_capture(temp, directory):
             message.set("저장 실패")
             window.after(2000, lambda: message.set(""))
         else:

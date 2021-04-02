@@ -68,11 +68,11 @@ class malddal:
         rgb = np.delete(rgb, range(9), axis=1).copy()
         rgb = np.delete(rgb, range(rgb.shape[0] - 9, rgb.shape[0]), axis=0).copy()
         rgb = np.delete(rgb, range(rgb.shape[1] - 9, rgb.shape[1]), axis=1).copy()
-        bgr = rgb[..., ::-1].copy()
 
-        cap = np.delete(bgr, range(int(bgr.shape[0] / 3)), axis=0).copy()
-        cap = np.delete(cap, range(cap.shape[0] - 2, int(cap.shape[0]/2), -1), axis=0).copy()
-        return bgr, cap
+        cap = np.delete(rgb, range(int(rgb.shape[0] / 4.5)), axis=0).copy()
+        cap = np.delete(cap, range(int(cap.shape[0] * 2.8), cap.shape[0]), axis=0).copy()
+        cap = np.delete(cap, range(int(rgb.shape[1] / 10)), axis=1).copy()
+        return rgb, cap
 
     def resizeWindow(self, hwnd):
         x0, y0, x1, y1 = win32gui.GetWindowRect(hwnd)
@@ -131,7 +131,7 @@ class malddal:
                     forAppend = self.leven(charSc, script)
                     revenList.append(forAppend)
                 index = revenList.index(min(revenList))
-                if min(revenList) < 6:
+                if min(revenList) < 4:
                     if len(charScript[index]) == min(revenList):
                         continue
                     found = True
