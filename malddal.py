@@ -70,7 +70,7 @@ class malddal:
         rgb = np.delete(rgb, range(rgb.shape[1] - 9, rgb.shape[1]), axis=1).copy()
 
         cap = np.delete(rgb, range(int(rgb.shape[0] / 4.5)), axis=0).copy()
-        cap = np.delete(cap, range(int(cap.shape[0] * 2.8), cap.shape[0]), axis=0).copy()
+        cap = np.delete(cap, range(int(cap.shape[0] * 0.6), cap.shape[0]), axis=0).copy()
         cap = np.delete(cap, range(int(rgb.shape[1] / 10)), axis=1).copy()
         return rgb, cap
 
