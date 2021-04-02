@@ -3,7 +3,7 @@ import tkinter as tk
 from threading import Thread, Semaphore
 
 global version
-version = "v0.8"
+version = "v0.8.1"
 
 global directory
 directory = r'%systemdrive%\user\%username%\desktop'
