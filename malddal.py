@@ -1,8 +1,6 @@
 import win32gui
 import numpy as np
 from PIL import ImageGrab, Image
-import cv2
-import ctypes
 import pytesseract
 import tkinter as tk
 from tkinter import messagebox, filedialog
@@ -17,9 +15,6 @@ import time
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
-def destroyWindow():
-    exit(0)
-
 
 class malddal:
 
@@ -32,11 +27,14 @@ class malddal:
             messagebox.showinfo(title="tesseract 에러", message="tesseract OCR 프로그램을 감지 할 수 없습니다.")
             exit(0)
 
+    def destroyWindow(self):
+        exit(0)
+
     def getGameFrom(self):
         window = tk.Tk()
         window.title("프로그램 옵션")
         window.geometry('300x200')
-        window.protocol('WM_DELETE_WINDOW', destroyWindow)
+        window.protocol('WM_DELETE_WINDOW', self.destroyWindow)
         radio_value = tk.IntVar()
         check_value = tk.BooleanVar()
 

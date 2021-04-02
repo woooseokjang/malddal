@@ -23,6 +23,7 @@ if __name__ == '__main__':
 
     if resize:
         mymalddal.request_admin_and_resize(hwnd)
+        exit(0)
 
     charScriptSpec, charScript, charSpec, charIter, charIter2 = mymalddal.read_script()
 
