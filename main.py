@@ -3,7 +3,7 @@ import tkinter as tk
 from threading import Thread, Semaphore
 
 global version
-version = "v0.8.1"
+version = "v0.8.2"
 
 global directory
 directory = r'%systemdrive%\user\%username%\desktop'
@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
     def imagecapture(directory):
         rgb, temp = mymalddal.getWindowsImage(hwnd)
-        if mymalddal.game_capture(temp, directory):
+        if mymalddal.game_capture(rgb, directory):
             message.set("저장 실패")
             window.after(2000, lambda: message.set(""))
         else:
