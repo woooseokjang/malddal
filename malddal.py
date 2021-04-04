@@ -35,6 +35,7 @@ class malddal:
         window.title("프로그램 옵션")
         window.geometry('300x200')
         window.protocol('WM_DELETE_WINDOW', self.destroyWindow)
+        window.iconbitmap('malddal.ico')
         radio_value = tk.IntVar()
         check_value = tk.BooleanVar()
 
@@ -63,7 +64,11 @@ class malddal:
         return win32gui.FindWindow(None, "")
 
     def getWindowsImage(self, hwnd):
-        rgb = np.array(ImageGrab.grab(bbox=win32gui.GetWindowRect(hwnd), all_screens=True))
+        try:
+            rgb = np.array(ImageGrab.grab(bbox=win32gui.GetWindowRect(hwnd), all_screens=True))
+        except:
+            messagebox.showinfo(title="Game not found", message="게임을 찾을 수 없었습니다. 게임을 먼저 실행후 실행하십시오. \n프로그램 재시작이 필요합니다.")
+            exit(0)
         rgb = np.delete(rgb, range(9 + 22), axis=0).copy()
         rgb = np.delete(rgb, range(9), axis=1).copy()
         rgb = np.delete(rgb, range(rgb.shape[0] - 9, rgb.shape[0]), axis=0).copy()

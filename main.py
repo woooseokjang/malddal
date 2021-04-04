@@ -3,7 +3,7 @@ import tkinter as tk
 from threading import Thread, Semaphore
 
 global version
-version = "v0.8.2"
+version = "v0.8.3"
 
 global directory
 directory = r'%systemdrive%\user\%username%\desktop'
@@ -32,6 +32,8 @@ if __name__ == '__main__':
     window = tk.Tk()
     window.title("MALDDAL - DCInside 우마무스메 갤러리 " + version)
     window.minsize(500, 500)
+    window.iconbitmap('malddal.ico')
+
     def EXIT():
         flagSem.acquire()
         global flag
@@ -40,6 +42,7 @@ if __name__ == '__main__':
         ocrThread.join()
         window.destroy()
         exit(0)
+
     window.protocol('WM_DELETE_WINDOW', EXIT)
 
     def EXITCheck():
