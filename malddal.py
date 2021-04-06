@@ -3,12 +3,13 @@ import numpy as np
 from PIL import ImageGrab, Image
 import pytesseract
 import tkinter as tk
-from tkinter import messagebox, filedialog
+from tkinter import messagebox, filedialog, DISABLED
 from screeninfo import get_monitors
 import ctypes, sys
 import pandas as pd
 import xlrd
 import time
+from threading import Semaphore
 
 # This is a sample Python script.
 
@@ -18,14 +19,20 @@ import time
 
 class malddal:
 
+
+
     def __init__(self) -> None:
         super().__init__()
+        self.flagSem = Semaphore(1)
         pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
         try:
             print(pytesseract.get_tesseract_version())
         except pytesseract.pytesseract.TesseractNotFoundError:
             messagebox.showinfo(title="tesseract 에러", message="tesseract OCR 프로그램을 감지 할 수 없습니다.")
             exit(0)
+
+    def getflagsem(self):
+        return self.flagSem
 
     def destroyWindow(self):
         exit(0)
@@ -44,7 +51,7 @@ class malddal:
         radio_button1.pack(pady=20)
         # radio_button2.pack()
 
-        checkbox = tk.Checkbutton(window, text='최적 해상도 변경', variable=check_value)
+        checkbox = tk.Checkbutton(window, text='최적 해상도 변경', variable=check_value, state=DISABLED)
         checkbox.pack(pady=10)
 
         def clickOK():
@@ -118,8 +125,8 @@ class malddal:
 
     def OCR(self, image, lastPrinted, charScriptSpec, charScript, charSpec, charIter, charIter2):
         try:
-            ocrOut = pytesseract.image_to_boxes(image, lang='jpn')
-            print(ocrOut)
+            ocrOut = pytesseract.image_to_string(image, lang='jpn')
+            # print(ocrOut)
         except pytesseract.pytesseract.TesseractError:
             messagebox.showinfo(title="OCR language ERR", message="tesseract 에 일본어팩이 포함되어 있지 않습니다.")
             exit(0)
@@ -132,7 +139,7 @@ class malddal:
                 # 자주 잡히는 OCR Error 수정 하드코딩
                 script = script.replace("/", "！")
                 script = script.replace("7", "！")
-                print(script)
+                # print(script)
                 revenList = []
                 for charSc in charScript:
                     forAppend = self.leven(charSc, script)
@@ -216,3 +223,31 @@ class malddal:
             return 0
         except OSError:
             return 1
+
+    def get_skill_info(self, hint, charSkillSpec, charSkill, charSpecOfSkill):
+        self.flagSem.acquire()
+        scr = hint.get()
+        self.flagSem.release()
+        skillindex = 0
+        found = False
+        for skillname in charSkill:
+            temp = "『" + skillname + "』"
+            temp.replace(' ', '')
+            if scr.find(temp) != -1:
+                found = True
+                break
+            skillindex = skillindex + 1
+        if found:
+            messagebox.showinfo(title=temp,
+                                message=charSpecOfSkill[skillindex])
+        else:
+            messagebox.showinfo(title="데이터 찾지 못함",
+                                message="해당 지문에 스킬정보가 없거나\n스킬 데이터가 누락되었을 수 있습니다.")
+
+    def read_skill(self):
+        df = pd.read_excel('./skill_spec.xls')
+        charSkillSpec = df.values.tolist()
+        charSkill = [skill[1] for skill in charSkillSpec]
+        charSpecOfSkill = [skillSpec[2] for skillSpec in charSkillSpec]
+
+        return charSkillSpec, charSkill, charSpecOfSkill

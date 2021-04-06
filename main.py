@@ -3,15 +3,18 @@ import tkinter as tk
 from threading import Thread, Semaphore
 
 global version
-version = "v0.8.3"
+version = "v0.8.4"
 
 global directory
 directory = r'%systemdrive%\user\%username%\desktop'
 
+
+
 if __name__ == '__main__':
     flag = False
-    flagSem = Semaphore(1)
+
     mymalddal = malddal.malddal()
+    flagSem = mymalddal.getflagsem()
     gamepub, resize = mymalddal.getGameFrom()
     windowflag = False
     print(gamepub)
@@ -26,7 +29,7 @@ if __name__ == '__main__':
         exit(0)
 
     charScriptSpec, charScript, charSpec, charIter, charIter2 = mymalddal.read_script()
-
+    charSkillSpec, charSkill, charSpecOfSkill = mymalddal.read_skill()
     lastPrinted = 99999
 
     window = tk.Tk()
@@ -71,10 +74,15 @@ if __name__ == '__main__':
     script4 = tk.Label(window, textvariable=scriptText[4], height=5, width=35, relief="groove")
     script5 = tk.Label(window)
     spec0 = tk.Label(window, textvariable=specText[0], height=5, width=50, relief="groove")
+    spec0.bind("<Button-1>", lambda e: mymalddal.get_skill_info(specText[0], charSkillSpec, charSkill, charSpecOfSkill))
     spec1 = tk.Label(window, textvariable=specText[1], height=5, width=50, relief="groove")
+    spec1.bind("<Button-1>", lambda e: mymalddal.get_skill_info(specText[1], charSkillSpec, charSkill, charSpecOfSkill))
     spec2 = tk.Label(window, textvariable=specText[2], height=5, width=50, relief="groove")
+    spec2.bind("<Button-1>", lambda e: mymalddal.get_skill_info(specText[2], charSkillSpec, charSkill, charSpecOfSkill))
     spec3 = tk.Label(window, textvariable=specText[3], height=5, width=50, relief="groove")
+    spec3.bind("<Button-1>", lambda e: mymalddal.get_skill_info(specText[3], charSkillSpec, charSkill, charSpecOfSkill))
     spec4 = tk.Label(window, textvariable=specText[4], height=5, width=50, relief="groove")
+    spec0.bind("<Button-1>", lambda e: mymalddal.get_skill_info(specText[4], charSkillSpec, charSkill, charSpecOfSkill))
     spec5 = tk.Label(window, textvariable=message)
 
     def directory_button_click(dir):
