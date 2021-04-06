@@ -59,8 +59,8 @@ if __name__ == '__main__':
     for i in range(5):
         text = tk.StringVar()
         text2 = tk.StringVar()
-        text.set("Loading")
-        text2.set("Loading")
+        text.set("N/A")
+        text2.set("N/A")
         scriptText.append(text)
         specText.append(text2)
 
