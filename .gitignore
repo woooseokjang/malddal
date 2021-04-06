@@ -3,3 +3,5 @@
 msedgedriver.exe
 __pycache__/
 test.py
+.vscode/
+APISETTING.json
