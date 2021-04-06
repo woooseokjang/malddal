@@ -118,9 +118,11 @@ class malddal:
 
     def OCR(self, image, lastPrinted, charScriptSpec, charScript, charSpec, charIter, charIter2):
         try:
-            ocrOut = pytesseract.image_to_string(image, lang='jpn')
+            ocrOut = pytesseract.image_to_boxes(image, lang='jpn')
+            print(ocrOut)
         except pytesseract.pytesseract.TesseractError:
             messagebox.showinfo(title="OCR language ERR", message="tesseract 에 일본어팩이 포함되어 있지 않습니다.")
+            exit(0)
         ocrScript = ocrOut.split('\n')
 
         entryScript = ""

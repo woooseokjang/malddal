@@ -130,7 +130,9 @@ npDataReshaped = npData.reshape(int(len(eventdata) / 4), 4)
 
 df = pd.DataFrame(npDataReshaped, columns=["script", "spec", "iter", "iter2"])
 df.to_excel("./character_script_spec.xls")
-print("*********")
-print("finished!")
-print("*********")
+print("************************")
+print("event crawling finished!")
+print("************************")
+
+
 driver.quit()
