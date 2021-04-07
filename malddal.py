@@ -40,12 +40,13 @@ class malddal:
     def getGameFrom(self):
         window = tk.Tk()
         window.title("프로그램 옵션")
-        window.geometry('300x200')
+        window.geometry('250x270')
         window.protocol('WM_DELETE_WINDOW', self.destroyWindow)
         window.iconbitmap('malddal.ico')
         radio_value = tk.IntVar()
         check_value = tk.BooleanVar()
-        always_infront = tk.BooleanVar()
+        always_top = tk.BooleanVar()
+        korean_mode = tk.BooleanVar()
 
         radio_button1 = tk.Radiobutton(window, text='  DMM  ', variable=radio_value, value=0)
         # radio_button2 = tk.Radiobutton(window, text='bluestack', variable=self.radio_value, value=1)
@@ -54,8 +55,10 @@ class malddal:
 
         checkbox = tk.Checkbutton(window, text='최적 해상도 변경', variable=check_value, state=DISABLED)
         checkbox.pack(pady=10)
-        checkbox2 = tk.Checkbutton(window, text='항상 위에 오기', variable=always_infront)
+        checkbox2 = tk.Checkbutton(window, text='항상 위에 오기', variable=always_top)
         checkbox2.pack(pady=10)
+        checkbox3 = tk.Checkbutton(window, text='스텟 한글로 표시', variable=korean_mode)
+        checkbox3.pack(pady=10)
 
         def clickOK():
             window.destroy()
@@ -65,7 +68,7 @@ class malddal:
         button.pack(pady=5)
 
         window.mainloop()
-        return radio_value.get(), check_value.get(), always_infront.get()
+        return radio_value.get(), check_value.get(), always_top.get(), korean_mode.get()
 
     def getHwndOfDMM(self):
         return win32gui.FindWindow(None, "umamusume")
@@ -200,8 +203,11 @@ class malddal:
             button.pack(pady='20')
             window.mainloop()
 
-    def read_script(self):
-        df = pd.read_excel('./character_script_spec.xls')
+    def read_script(self, korean_mode):
+        if korean_mode:
+            df = pd.read_excel('./character_script_spec_ko.xls')
+        else:
+            df = pd.read_excel('./character_script_spec.xls')
         charScriptSpec = df.values.tolist()
         charScript = [script[1] for script in charScriptSpec]
         charSpec = [spec[2] for spec in charScriptSpec]

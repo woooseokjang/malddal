@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     mymalddal = malddal.malddal()
     flagSem = mymalddal.getflagsem()
-    gamepub, resize, is_top = mymalddal.getGameFrom()
+    gamepub, resize, is_top, korean_mode = mymalddal.getGameFrom()
     windowflag = False
     print(gamepub)
 
@@ -28,7 +28,7 @@ if __name__ == '__main__':
         mymalddal.request_admin_and_resize(hwnd)
         exit(0)
 
-    charScriptSpec, charScript, charSpec, charIter, charIter2 = mymalddal.read_script()
+    charScriptSpec, charScript, charSpec, charIter, charIter2 = mymalddal.read_script(korean_mode)
     charSkillSpec, charSkill, charSpecOfSkill = mymalddal.read_skill()
 
 
