@@ -45,6 +45,7 @@ class malddal:
         window.iconbitmap('malddal.ico')
         radio_value = tk.IntVar()
         check_value = tk.BooleanVar()
+        always_infront = tk.BooleanVar()
 
         radio_button1 = tk.Radiobutton(window, text='  DMM  ', variable=radio_value, value=0)
         # radio_button2 = tk.Radiobutton(window, text='bluestack', variable=self.radio_value, value=1)
@@ -53,6 +54,8 @@ class malddal:
 
         checkbox = tk.Checkbutton(window, text='최적 해상도 변경', variable=check_value, state=DISABLED)
         checkbox.pack(pady=10)
+        checkbox2 = tk.Checkbutton(window, text='항상 위에 오기', variable=always_infront)
+        checkbox2.pack(pady=10)
 
         def clickOK():
             window.destroy()
@@ -62,11 +65,9 @@ class malddal:
         button.pack(pady=5)
 
         window.mainloop()
-        return radio_value.get(), check_value.get()
+        return radio_value.get(), check_value.get(), always_infront.get()
 
     def getHwndOfDMM(self):
-        # High DPI awareness
-        ctypes.windll.user32.SetProcessDPIAware()
         return win32gui.FindWindow(None, "umamusume")
 
     def getHwndOfBluestack(self):

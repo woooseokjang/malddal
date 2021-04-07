@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     mymalddal = malddal.malddal()
     flagSem = mymalddal.getflagsem()
-    gamepub, resize = mymalddal.getGameFrom()
+    gamepub, resize, is_top = mymalddal.getGameFrom()
     windowflag = False
     print(gamepub)
 
@@ -30,12 +30,14 @@ if __name__ == '__main__':
 
     charScriptSpec, charScript, charSpec, charIter, charIter2 = mymalddal.read_script()
     charSkillSpec, charSkill, charSpecOfSkill = mymalddal.read_skill()
-    lastPrinted = 99999
+
 
     window = tk.Tk()
     window.title("MALDDAL - DCInside 우마무스메 갤러리 " + version)
     window.minsize(500, 500)
     window.iconbitmap('malddal.ico')
+    if is_top:
+        window.attributes("-topmost", 1)
 
     def EXIT():
         flagSem.acquire()
@@ -82,7 +84,7 @@ if __name__ == '__main__':
     spec3 = tk.Label(window, textvariable=specText[3], height=5, width=50, relief="groove")
     spec3.bind("<Button-1>", lambda e: mymalddal.get_skill_info(specText[3], charSkillSpec, charSkill, charSpecOfSkill))
     spec4 = tk.Label(window, textvariable=specText[4], height=5, width=50, relief="groove")
-    spec0.bind("<Button-1>", lambda e: mymalddal.get_skill_info(specText[4], charSkillSpec, charSkill, charSpecOfSkill))
+    spec4.bind("<Button-1>", lambda e: mymalddal.get_skill_info(specText[4], charSkillSpec, charSkill, charSpecOfSkill))
     spec5 = tk.Label(window, textvariable=message)
 
     def directory_button_click(dir):
@@ -122,6 +124,7 @@ if __name__ == '__main__':
 
 
     def mainloop():
+        lastPrinted = 99999
         while True:
             EXITCheck()
             global image
@@ -131,25 +134,29 @@ if __name__ == '__main__':
                                                   charIter2)
             if lastPrinted == printed:
                 continue
+            lastPrinted = printed
             scriptIter = 0
             EXITCheck()
             for sc in script:
+                flagSem.acquire()
                 scriptText[scriptIter].set(sc)
+                flagSem.release()
                 scriptIter = scriptIter + 1
             for sc in range(scriptIter, 5):
+                flagSem.acquire()
                 scriptText[sc].set("N/A")
+                flagSem.release()
             scriptIter = 0
             for sp in spec:
+                flagSem.acquire()
                 specText[scriptIter].set(sp)
+                flagSem.release()
                 scriptIter = scriptIter + 1
             for sc in range(scriptIter, 5):
+                flagSem.acquire()
                 specText[sc].set("N/A")
+                flagSem.release()
 
     ocrThread = Thread(target=mainloop)
     ocrThread.start()
     window.mainloop()
-
-
-
-
-
