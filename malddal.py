@@ -71,6 +71,7 @@ class malddal:
         return radio_value.get(), check_value.get(), always_top.get(), korean_mode.get()
 
     def getHwndOfDMM(self):
+        ctypes.windll.user32.SetProcessDPIAware()
         return win32gui.FindWindow(None, "umamusume")
 
     def getHwndOfBluestack(self):
