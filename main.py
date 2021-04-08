@@ -1,6 +1,7 @@
 import malddal
 import tkinter as tk
 from threading import Thread, Semaphore
+from tkinter import messagebox
 
 global version
 version = "v0.8.4.1"
@@ -22,7 +23,7 @@ if __name__ == '__main__':
     if gamepub == 0:
         hwnd = mymalddal.getHwndOfDMM()
     else:
-        hwnd = 0
+        hwnd = mymalddal.getHwndOfBluestacks()
 
     if resize:
         mymalddal.request_admin_and_resize(hwnd)
@@ -96,7 +97,7 @@ if __name__ == '__main__':
                         command=lambda: directory_button_click(directory), width=20, height=3)
 
     def imagecapture(directory):
-        rgb, temp = mymalddal.getWindowsImage(hwnd)
+        rgb, temp = mymalddal.getWindowsImage(hwnd, gamepub)
         if mymalddal.game_capture(rgb, directory):
             message.set("저장 실패")
             window.after(2000, lambda: message.set(""))
@@ -129,7 +130,7 @@ if __name__ == '__main__':
             EXITCheck()
             global image
             global cap
-            image, cap = mymalddal.getWindowsImage(hwnd)
+            image, cap = mymalddal.getWindowsImage(hwnd, gamepub)
             script, spec, printed = mymalddal.OCR(cap, lastPrinted, charScriptSpec, charScript, charSpec, charIter,
                                                   charIter2)
             if lastPrinted == printed:
@@ -156,6 +157,7 @@ if __name__ == '__main__':
                 flagSem.acquire()
                 specText[sc].set("N/A")
                 flagSem.release()
+
 
     ocrThread = Thread(target=mainloop)
     ocrThread.start()

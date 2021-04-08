@@ -40,7 +40,7 @@ class malddal:
     def getGameFrom(self):
         window = tk.Tk()
         window.title("프로그램 옵션")
-        window.geometry('250x270')
+        window.geometry('250x280')
         window.protocol('WM_DELETE_WINDOW', self.destroyWindow)
         window.iconbitmap('malddal.ico')
         radio_value = tk.IntVar()
@@ -48,10 +48,11 @@ class malddal:
         always_top = tk.BooleanVar()
         korean_mode = tk.BooleanVar()
 
-        radio_button1 = tk.Radiobutton(window, text='  DMM  ', variable=radio_value, value=0)
+        radio_button0 = tk.Radiobutton(window, text='   DMM   ', variable=radio_value, value=0)
+        radio_button1 = tk.Radiobutton(window, text='bluestacks', variable=radio_value, value=1)
         # radio_button2 = tk.Radiobutton(window, text='bluestack', variable=self.radio_value, value=1)
-        radio_button1.pack(pady=20)
-        # radio_button2.pack()
+        radio_button0.pack(pady=10)
+        radio_button1.pack(pady=10)
 
         checkbox = tk.Checkbutton(window, text='최적 해상도 변경', variable=check_value, state=DISABLED)
         checkbox.pack(pady=10)
@@ -74,23 +75,31 @@ class malddal:
         ctypes.windll.user32.SetProcessDPIAware()
         return win32gui.FindWindow(None, "umamusume")
 
-    def getHwndOfBluestack(self):
-        return win32gui.FindWindow(None, "")
+    def getHwndOfBluestacks(self):
+        ctypes.windll.user32.SetProcessDPIAware()
+        return win32gui.FindWindow(None, "BlueStacks")
 
-    def getWindowsImage(self, hwnd):
+    def getWindowsImage(self, hwnd, publisher):
         try:
             rgb = np.array(ImageGrab.grab(bbox=win32gui.GetWindowRect(hwnd), all_screens=True))
         except:
             messagebox.showinfo(title="Game not found", message="게임을 찾을 수 없었습니다. 게임을 먼저 실행후 실행하십시오. \n프로그램 재시작이 필요합니다.")
             exit(0)
-        rgb = np.delete(rgb, range(9 + 22), axis=0).copy()
-        rgb = np.delete(rgb, range(9), axis=1).copy()
-        rgb = np.delete(rgb, range(rgb.shape[0] - 9, rgb.shape[0]), axis=0).copy()
-        rgb = np.delete(rgb, range(rgb.shape[1] - 9, rgb.shape[1]), axis=1).copy()
+        if publisher == 0:
+            rgb = np.delete(rgb, range(9 + 22), axis=0).copy()
+            rgb = np.delete(rgb, range(9), axis=1).copy()
+            rgb = np.delete(rgb, range(rgb.shape[0] - 9, rgb.shape[0]), axis=0).copy()
+            rgb = np.delete(rgb, range(rgb.shape[1] - 9, rgb.shape[1]), axis=1).copy()
 
-        cap = np.delete(rgb, range(int(rgb.shape[0] / 4.5)), axis=0).copy()
-        cap = np.delete(cap, range(int(cap.shape[0] * 0.6), cap.shape[0]), axis=0).copy()
-        cap = np.delete(cap, range(int(rgb.shape[1] / 10)), axis=1).copy()
+            cap = np.delete(rgb, range(int(rgb.shape[0] / 4.5)), axis=0).copy()
+            cap = np.delete(cap, range(int(cap.shape[0] * 0.6), cap.shape[0]), axis=0).copy()
+            cap = np.delete(cap, range(int(rgb.shape[1] / 10)), axis=1).copy()
+        else:
+            rgb = np.delete(rgb, range(40), axis=0).copy()
+            rgb = np.delete(rgb, range(rgb.shape[1]-60, rgb.shape[1]), axis=1).copy()
+            cap = np.delete(rgb, range(int(rgb.shape[0] / 3.5)), axis=0).copy()
+            cap = np.delete(cap, range(int(cap.shape[0] * 0.6), cap.shape[0]), axis=0).copy()
+            cap = np.delete(cap, range(int(rgb.shape[1] / 10)), axis=1).copy()
         return rgb, cap
 
     def resizeWindow(self, hwnd):
