@@ -4,7 +4,7 @@ from threading import Thread, Semaphore
 from tkinter import messagebox
 
 global version
-version = "v0.8.4.1"
+version = "v0.8.5"
 
 global directory
 directory = r'%systemdrive%\user\%username%\desktop'
