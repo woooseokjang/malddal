@@ -24,9 +24,8 @@ driver = webdriver.Chrome(
     executable_path=r'msedgedriver.exe', options=option)
 
 driver.get("https://gamewith.jp/uma-musume/article/show/257928")
-skillTable = driver.find_element_by_xpath(
-    "/html/body/div[6]/div/div[1]/div[1]/div[1]/div[2]/div[2]/div[2]/div/table")
-tbody = skillTable.find_element_by_tag_name("tbody")
+tbody = driver.find_element_by_xpath(
+    "/html/body/div[6]/div/div[1]/div[1]/div[1]/div[2]/div[2]/div[3]/div/table/tbody")
 trs = tbody.find_elements_by_tag_name("tr")
 
 skilldata = []

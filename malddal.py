@@ -19,8 +19,6 @@ from threading import Semaphore
 
 class malddal:
 
-
-
     def __init__(self) -> None:
         super().__init__()
         self.flagSem = Semaphore(1)
