@@ -43,7 +43,7 @@ for tr in trs:
                 client_id = json_data["client_id"]
                 client_secret = json_data["client_secret"]
                 encText = urllib.parse.quote(t)
-                data = "source=ja&target=ko&text=" + encText
+                data = "source=ja&target=en&text=" + encText
                 url = "https://openapi.naver.com/v1/papago/n2mt"
                 request = urllib.request.Request(url)
                 request.add_header("X-Naver-Client-Id", client_id)
@@ -59,7 +59,7 @@ for tr in trs:
                     skilldata.append(
                         resmess['message']['result']['translatedText'])
                     print(resmess['message']['result']['translatedText'])
-            else:
+            if t == temp[0]:
                 print(t)
                 skilldata.append(t)
             time.sleep(0.11)
@@ -68,7 +68,7 @@ npData = np.array(skilldata)
 npDataReshaped = npData.reshape(int(len(skilldata) / 2), 2)
 
 df = pd.DataFrame(npDataReshaped, columns=["skillName", "skillInfo"])
-df.to_excel("./skill_spec.xls")
+df.to_excel("./skill_spec_en.xls")
 print("************************")
 print("skill crawling finished!")
 print("************************")

@@ -16,8 +16,7 @@ option.add_argument('--headless')
 option.add_argument('disable-gpu')
 
 
-driver = webdriver.Chrome(
-    executable_path=r'msedgedriver.exe', options=option)
+driver = webdriver.Edge(r'msedgedriver.exe')
 
 
 driver.get("https://gamewith.jp/uma-musume/article/show/253241")
@@ -31,8 +30,11 @@ for td in tdListedByHosi:
     a = td.find_element_by_tag_name("a")
     urls.append(a.get_attribute("href"))
 
+hosi = 0
+
 for url in urls:
-    print("get <-" + url)
+    hosi = hosi + 1
+    print("umamusume -> " + str(hosi))
     driver.get(url)
     div_class = driver.find_element_by_xpath(
         "//*[@id=\"article-body\"]/div[1]")
@@ -64,13 +66,14 @@ for umamusume in umamusumes:
         iter2 = 1
         for tr in trs:
             script = tr.find_element_by_tag_name("th")
-            eventdata.append(script.text)
-            td = tr.find_element_by_tag_name("td")
-            temp = td.text.replace("\n", "&")
-            eventdata.append(temp)
-            eventdata.append(iter)
-            eventdata.append(iter2)
-            iter2 = iter2 + 1
+            if not script.text in eventdata:
+                eventdata.append(script.text)
+                td = tr.find_element_by_tag_name("td")
+                temp = td.text.replace("\n", "&")
+                eventdata.append(temp)
+                eventdata.append(iter)
+                eventdata.append(iter2)
+                iter2 = iter2 + 1
         iter = iter + 1
 
 suports = []
@@ -92,15 +95,15 @@ for url in urls:
     print("get <-" + url)
     driver.get(url)
     tbody = driver.find_element_by_xpath(
-        "/html/body/div[6]/div/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/table/tbody")
+        "/html/body/div[6]/div/div[1]/div[1]/div[1]/div[2]/div[2]/div[2]/table/tbody")
     trs = tbody.find_elements_by_tag_name("tr")
     for tr in trs:
         if tr == trs[0]:
             continue
-        tds = tr.find_elements_by_tag_name("td")
-        td = tds[0]
-        a = td.find_element_by_tag_name("a")
-        urls2.append(a.get_attribute("href"))
+        else:
+            tds = tr.find_elements_by_tag_name("td")
+            a = tds[0].find_element_by_tag_name("a")
+            urls2.append(a.get_attribute("href"))
 
 
 for url in urls2:
@@ -115,13 +118,14 @@ for url in urls2:
         iter2 = 1
         for tr in trs:
             script = tr.find_element_by_tag_name("th")
-            eventdata.append(script.text)
-            td = tr.find_element_by_tag_name("td")
-            temp = td.text.replace("\n", "&")
-            eventdata.append(temp)
-            eventdata.append(iter)
-            eventdata.append(iter2)
-            iter2 = iter2 + 1
+            if not script.text in eventdata:
+                eventdata.append(script.text)
+                td = tr.find_element_by_tag_name("td")
+                temp = td.text.replace("\n", "&")
+                eventdata.append(temp)
+                eventdata.append(iter)
+                eventdata.append(iter2)
+                iter2 = iter2 + 1
         iter = iter + 1
 
 
